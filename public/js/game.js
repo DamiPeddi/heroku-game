@@ -20,6 +20,7 @@ let gameSettings = {
 let game = new Phaser.Game(gameSettings);
 var movement = [0, 0];
 var cursors;
+var lastMovement = [-10, -10];
 
 gameScene.init = function(){
 
@@ -140,8 +141,11 @@ gameScene.update = function(){
         movement[0] = 0;
     }
 
-
-    this.socket.emit('handleInputs', movement);
+    if(lastMovement[0] != movement[0] || lastMovement[1] != movement[1]){
+        this.socket.emit('handleInputs', movement);
+        lastMovement = movement;
+    }
+    
 
 }
 function createMyPlayer(mySelf, playerStuff){
