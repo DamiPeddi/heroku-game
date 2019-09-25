@@ -21,6 +21,7 @@ let game = new Phaser.Game(gameSettings);
 var movement = [0, 0];
 var cursors;
 var lastMovement = [-10, -10];
+var sentIdle = false;
 
 gameScene.init = function(){
 
@@ -58,7 +59,7 @@ gameScene.create = function(){
             {key: 'idle6', duration: 30}
         ],
         frameRate: 10,
-        repeat: 0
+        repeat: -1
     });
 
     this.anims.create({
@@ -140,11 +141,21 @@ gameScene.update = function(){
     }else{
         movement[0] = 0;
     }
-
-    if(lastMovement[0] != movement[0] || lastMovement[1] != movement[1]){
+    if(movement[0] != 0 || movement[1] != 0){
         this.socket.emit('handleInputs', movement);
-        lastMovement = movement;
+        console.log("sending " + movement);
+        sentIdle = false;
+    }else{
+        if(!sentIdle){
+            console.log("sending " + movement);
+            this.socket.emit('handleInputs', movement);
+            lastMovement[0] = movement[0];
+            lastMovement[1] = movement[1];
+            sentIdle = true;
+        }
+        
     }
+    
     
 
 }
