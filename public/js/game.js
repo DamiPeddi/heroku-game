@@ -35,8 +35,8 @@ gameScene.preload = function(){
     }
 }
 gameScene.create = function(){
-    //gameScene.cameras.main.setBackgroundColor('#f2f7f0');
-    gameScene.cameras.main.setBackgroundColor('#313131');
+    gameScene.cameras.main.setBackgroundColor('#f2f7f0');
+    //gameScene.cameras.main.setBackgroundColor('#313131');
     this.otherPlayersOnline = this.physics.add.group();
     this.socket = io();
     var mySelf = this;
